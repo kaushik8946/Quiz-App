@@ -55,7 +55,7 @@ val historyEasy = listOf(
         category = "History",
         question = "When did the Battle of the Somme begin?",
         correctAnswer = "July 1st, 1916",
-        incorrectAnswers =listOf(
+        incorrectAnswers = listOf(
             "August 1st, 1916",
             "July 2nd, 1916",
             "June 30th, 1916"

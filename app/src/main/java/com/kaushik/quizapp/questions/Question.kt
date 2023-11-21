@@ -10,3 +10,5 @@ data class Question(
 )
 
 val questionsMap = mutableMapOf<String, MutableMap<String, List<Question>>>()
+
+val difficulties= mutableMapOf<String,List<String>>()

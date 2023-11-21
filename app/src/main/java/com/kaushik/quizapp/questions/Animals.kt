@@ -1,88 +1,5 @@
 package com.kaushik.quizapp.questions
 
-val animalQuestionHard = listOf(
-    Question(
-        "multiple",
-        "hard",
-        "Animals",
-        "What bird is born with claws on its wing digits?",
-        "Hoatzin",
-        listOf("Cormorant", "Cassowary", "Secretary bird")
-    ),
-    Question(
-        "multiple",
-        "hard",
-        "Animals",
-        "What is the scientific name of the Budgerigar?",
-        "Melopsittacus undulatus",
-        listOf("Nymphicus hollandicus", "Pyrrhura molinae", "Ara macao")
-    ),
-    Question(
-        "multiple",
-        "hard",
-        "Animals",
-        "Which species of Brown Bear is not extinct?",
-        "Syrian Brown Bear",
-        listOf("California Grizzly Bear", "Atlas Bear", "Mexican Grizzly Bear")
-    ),
-    Question(
-        "multiple",
-        "hard",
-        "Animals",
-        "To which biological phylum do all mammals, birds and reptiles belong?",
-        "Chordata",
-        listOf("Echinodermata", "Annelida", "Placazoa")
-    ),
-    Question(
-        "multiple",
-        "hard",
-        "Animals",
-        "What is the Gray Wolf&#039;s scientific name?",
-        "Canis Lupus",
-        listOf("Canis Aureus", "Canis Latrans", "Canis Lupus Lycaon")
-    ),
-    Question(
-        "multiple",
-        "hard",
-        "Animals",
-        "Unlike on most salamanders, this part of a newt is flat?",
-        "Tail",
-        listOf("Head", "Teeth", "Feet")
-    ),
-    Question(
-        "multiple",
-        "hard",
-        "Animals",
-        "Which of the following is another name for the &quot;Poecilotheria Metallica Tarantula&quot;?",
-        "Gooty",
-        listOf("Hopper", "Silver Stripe", "Woebegone")
-    ),
-    Question(
-        "multiple",
-        "hard",
-        "Animals",
-        "What is the collective noun for vultures?",
-        "Wake",
-        listOf("Ambush", "Building", "Gaze")
-    ),
-    Question(
-        "multiple",
-        "hard",
-        "Animals",
-        "What is the name of the copper-rich protein that creates the blue blood in the Antarctic octopus?",
-        "Hemocyanin",
-        listOf("Cytochrome", "Iron", "Methionine")
-    ),
-    Question(
-        "multiple",
-        "hard",
-        "Animals",
-        "What is the scientific name of the cheetah?",
-        "Acinonyx jubatus",
-        listOf("Panthera onca", "Lynx rufus", "Felis catus")
-    )
-)
-
 val animalQuestionMedium = listOf(
     Question(
         "multiple",
@@ -171,6 +88,89 @@ val animalQuestionMedium = listOf(
             "Tasmanian tiger",
             "Saudi gazelle"
         )
+    )
+)
+
+val animalQuestionHard = listOf(
+    Question(
+        "multiple",
+        "hard",
+        "Animals",
+        "What bird is born with claws on its wing digits?",
+        "Hoatzin",
+        listOf("Cormorant", "Cassowary", "Secretary bird")
+    ),
+    Question(
+        "multiple",
+        "hard",
+        "Animals",
+        "What is the scientific name of the Budgerigar?",
+        "Melopsittacus undulatus",
+        listOf("Nymphicus hollandicus", "Pyrrhura molinae", "Ara macao")
+    ),
+    Question(
+        "multiple",
+        "hard",
+        "Animals",
+        "Which species of Brown Bear is not extinct?",
+        "Syrian Brown Bear",
+        listOf("California Grizzly Bear", "Atlas Bear", "Mexican Grizzly Bear")
+    ),
+    Question(
+        "multiple",
+        "hard",
+        "Animals",
+        "To which biological phylum do all mammals, birds and reptiles belong?",
+        "Chordata",
+        listOf("Echinodermata", "Annelida", "Placazoa")
+    ),
+    Question(
+        "multiple",
+        "hard",
+        "Animals",
+        "What is the Gray Wolf&#039;s scientific name?",
+        "Canis Lupus",
+        listOf("Canis Aureus", "Canis Latrans", "Canis Lupus Lycaon")
+    ),
+    Question(
+        "multiple",
+        "hard",
+        "Animals",
+        "Unlike on most salamanders, this part of a newt is flat?",
+        "Tail",
+        listOf("Head", "Teeth", "Feet")
+    ),
+    Question(
+        "multiple",
+        "hard",
+        "Animals",
+        "Which of the following is another name for the &quot;Poecilotheria Metallica Tarantula&quot;?",
+        "Gooty",
+        listOf("Hopper", "Silver Stripe", "Woebegone")
+    ),
+    Question(
+        "multiple",
+        "hard",
+        "Animals",
+        "What is the collective noun for vultures?",
+        "Wake",
+        listOf("Ambush", "Building", "Gaze")
+    ),
+    Question(
+        "multiple",
+        "hard",
+        "Animals",
+        "What is the name of the copper-rich protein that creates the blue blood in the Antarctic octopus?",
+        "Hemocyanin",
+        listOf("Cytochrome", "Iron", "Methionine")
+    ),
+    Question(
+        "multiple",
+        "hard",
+        "Animals",
+        "What is the scientific name of the cheetah?",
+        "Acinonyx jubatus",
+        listOf("Panthera onca", "Lynx rufus", "Felis catus")
     )
 )
 

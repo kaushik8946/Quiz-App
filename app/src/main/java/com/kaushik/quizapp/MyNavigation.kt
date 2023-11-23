@@ -13,7 +13,7 @@ fun MyNavigation() {
             HomeScreen(navController)
         }
         composable("questions") {
-
+            QuestionScreen(navController)
         }
     }
 }

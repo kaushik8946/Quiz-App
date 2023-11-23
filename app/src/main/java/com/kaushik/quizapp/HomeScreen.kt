@@ -1,9 +1,11 @@
 package com.kaushik.quizapp
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,10 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 
+@SuppressLint("ApplySharedPref")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val context=LocalContext.current
+    val sharedPreferences = context.getSharedPreferences("choices", Context.MODE_PRIVATE)
     var topicExpanded by rememberSaveable { mutableStateOf(false) }
     var diffExpanded by rememberSaveable { mutableStateOf(false) }
     val difficulties = listOf("Easy", "Medium", "Hard")
@@ -50,25 +54,23 @@ fun HomeScreen(navController: NavHostController) {
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Text(text = "Select your preference:", fontSize = 20.sp)
-        Box(
-            modifier = Modifier.fillMaxWidth()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = """
                 Select
                 topic:
             """.trimIndent(),
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 20.dp),
                 fontSize = 17.sp
             )
             ExposedDropdownMenuBox(
                 expanded = topicExpanded,
                 onExpandedChange = {
                     topicExpanded = !topicExpanded
-                },
-                modifier = Modifier.align(Alignment.CenterEnd)
+                }
             ) {
                 OutlinedTextField(
                     readOnly = true,
@@ -101,25 +103,23 @@ fun HomeScreen(navController: NavHostController) {
                 }
             }
         } // topic drop down
-        Box(
-            modifier = Modifier.fillMaxWidth()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = """
                 Select
                 Difficulty:
             """.trimIndent(),
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 16.dp),
                 fontSize = 17.sp
             )
             ExposedDropdownMenuBox(
                 expanded = diffExpanded,
                 onExpandedChange = {
                     diffExpanded = !diffExpanded
-                },
-                modifier = Modifier.align(Alignment.CenterEnd)
+                }
             ) {
                 OutlinedTextField(
                     readOnly = true,
@@ -155,6 +155,10 @@ fun HomeScreen(navController: NavHostController) {
         Button(onClick = {
             if(difficulty=="Easy"&&topicChoice=="Animals"){
                 Toast.makeText(context, "No easy difficulty in \"Animals\"", Toast.LENGTH_SHORT).show()
+            } else {
+                sharedPreferences.edit().putString("difficulty", difficulty).commit()
+                sharedPreferences.edit().putString("topic", topicChoice).commit()
+                navController.navigate("questions")
             }
         }) {
             Text(text = "Submit")

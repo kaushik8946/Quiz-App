@@ -1,5 +1,6 @@
 package com.kaushik.quizapp
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
@@ -14,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material3.Button
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
@@ -33,10 +35,10 @@ import androidx.navigation.NavHostController
 import com.kaushik.quizapp.questions.Question
 import com.kaushik.quizapp.questions.questionsMap
 
+@SuppressLint("ApplySharedPref")
 @Composable
 fun QuestionScreen(navController: NavHostController) {
     val context = LocalContext.current
-    val userAnswers = Array(10) { "" }
     val sharedPreferences = context.getSharedPreferences("choices", Context.MODE_PRIVATE)
     val difficulty = sharedPreferences.getString("difficulty", "").toString()
     val topic = sharedPreferences.getString("topic", "").toString()
@@ -67,9 +69,9 @@ fun QuestionScreen(navController: NavHostController) {
                 Box(modifier = Modifier.fillMaxSize()) {
                     Text(
                         text = """
-                            Q ${i + 1}
-                            $question
-                            """.trimIndent(),
+Q ${i + 1}
+$question
+""".trimIndent(),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.align(Alignment.Center)
                     )
@@ -102,8 +104,7 @@ fun QuestionScreen(navController: NavHostController) {
                         selected = selectedOption == option,
                         onClick = {
                             selectedOption = option
-                            userAnswers[i] = option
-                            Log.i("answers", userAnswers.toString())
+                            sharedPreferences.edit().putString(i.toString(), option).commit()
                         },
                         colors = RadioButtonDefaults.colors(
                             selectedColor = Color(0xff004643),
@@ -116,6 +117,16 @@ fun QuestionScreen(navController: NavHostController) {
                     )
                 }
             }
+        }
+        Button(
+            onClick = {
+                for (i in 0 until 10) {
+                    val option = sharedPreferences.getString(i.toString(), null).toString()
+                    Log.i("answers", "$i $option")
+                }
+            }
+        ) {
+            Text(text = "Submit")
         }
     }
 }

@@ -15,5 +15,8 @@ fun MyNavigation() {
         composable("questions") {
             QuestionScreen(navController)
         }
+        composable("results") {
+            ResultScreen(navController)
+        }
     }
 }

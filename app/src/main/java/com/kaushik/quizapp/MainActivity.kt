@@ -1,7 +1,7 @@
 package com.kaushik.quizapp
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,7 +23,7 @@ import com.kaushik.quizapp.questions.vehiclesMedium
 
 class MainActivity : ComponentActivity() {
 
-    private val sharedPreferences = getSharedPreferences("choices", Context.MODE_PRIVATE)
+    private lateinit var sharedPreferences: SharedPreferences
 
     init {
         questionsMap["Animals"] = mutableMapOf()
@@ -51,8 +51,8 @@ class MainActivity : ComponentActivity() {
         questionsMap["Vehicles"]?.set("Hard", vehiclesHard)
     }
 
-    @SuppressLint("ApplySharedPref")
     override fun onCreate(savedInstanceState: Bundle?) {
+        sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         for (i in 0 until 10) {
             sharedPreferences.edit().putString("$i", null).commit()
@@ -67,5 +67,12 @@ class MainActivity : ComponentActivity() {
         for (i in 0 until 10) {
             sharedPreferences.edit().putString("$i", null).commit()
         }
+    }
+
+    override fun onBackPressed() {
+        for (i in 0 until 10) {
+            sharedPreferences.edit().putString("$i", null).commit()
+        }
+        super.onBackPressed()
     }
 }

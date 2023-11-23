@@ -1,12 +1,11 @@
 package com.kaushik.quizapp
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,11 +34,10 @@ import androidx.navigation.NavHostController
 import com.kaushik.quizapp.questions.Question
 import com.kaushik.quizapp.questions.questionsMap
 
-@SuppressLint("ApplySharedPref")
 @Composable
 fun QuestionScreen(navController: NavHostController) {
     val context = LocalContext.current
-    val sharedPreferences = context.getSharedPreferences("choices", Context.MODE_PRIVATE)
+    val sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE)
     val difficulty = sharedPreferences.getString("difficulty", "").toString()
     val topic = sharedPreferences.getString("topic", "").toString()
     val questionsList: List<Question> = questionsMap[topic]?.get(difficulty)!!
@@ -51,79 +49,90 @@ fun QuestionScreen(navController: NavHostController) {
     }
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(horizontal = 10.dp)
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        for (i in questionsList.indices) {
-            val question = questionsList[i].question
-            Card(
-                elevation = 10.dp,
-                modifier = Modifier
-                    .padding(vertical = 10.dp)
-                    .fillMaxWidth()
-                    .height(70.dp),
-                shape = RoundedCornerShape(10.dp),
-            ) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Text(
-                        text = """
-Q ${i + 1}
-$question
-""".trimIndent(),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            }
-            var selectedOption by remember {
-                mutableStateOf("")
-            }
-            val optionsList = options[i]
-            optionsList.forEach { option ->
-                val textColor =
-                    if (selectedOption == option)
-                        Color(0xff004643)
-                    else
-                        Color(0xff000000)
-                val rowColor =
-                    if (selectedOption == option)
-                        Color(0xffABD1C6)
-                    else
-                        Color(0xffffffff)
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(.96f)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            for (i in questionsList.indices) {
+                val question = questionsList[i].question
+                Card(
+                    elevation = 10.dp,
                     modifier = Modifier
-                        .padding(vertical = 5.dp)
-                        .clip(RoundedCornerShape(10.dp))
+                        .padding(vertical = 10.dp)
                         .fillMaxWidth()
-                        .background(rowColor)
+                        .height(70.dp),
+                    shape = RoundedCornerShape(10.dp),
                 ) {
-                    RadioButton(
-                        selected = selectedOption == option,
-                        onClick = {
-                            selectedOption = option
-                            sharedPreferences.edit().putString(i.toString(), option).commit()
-                        },
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = Color(0xff004643),
-                            unselectedColor = Color(0xff000000)
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        Text(
+                            text = """
+                            Q ${i + 1}
+                            $question
+                            """.trimIndent(),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.align(Alignment.Center)
                         )
-                    )
-                    Text(
-                        text = option,
-                        color = textColor
-                    )
+                    }
+                }
+                var selectedOption by remember {
+                    mutableStateOf("")
+                }
+                val optionsList = options[i]
+                optionsList.forEach { option ->
+                    val textColor =
+                        if (selectedOption == option)
+                            Color(0xff004643)
+                        else
+                            Color(0xff000000)
+                    val rowColor =
+                        if (selectedOption == option)
+                            Color(0xffABD1C6)
+                        else
+                            Color(0xffffffff)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .padding(vertical = 5.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .fillMaxWidth()
+                            .background(rowColor)
+                    ) {
+                        RadioButton(
+                            selected = selectedOption == option,
+                            onClick = {
+                                selectedOption = option
+                                sharedPreferences.edit().putString(i.toString(), option).commit()
+                            },
+                            colors = RadioButtonDefaults.colors(
+                                selectedColor = Color(0xff004643),
+                                unselectedColor = Color(0xff000000)
+                            )
+                        )
+                        Text(
+                            text = option,
+                            color = textColor
+                        )
+                    }
                 }
             }
         }
         Button(
             onClick = {
+                var score = 0
                 for (i in 0 until 10) {
-                    val option = sharedPreferences.getString(i.toString(), null).toString()
-                    Log.i("answers", "$i $option")
+                    val response = sharedPreferences.getString("$i", "")
+                    if (response == questionsList[i].correctAnswer) {
+                        score++
+                    }
                 }
+                sharedPreferences.edit().putInt("score", score).commit()
+                navController.navigate("results")
             }
         ) {
             Text(text = "Submit")

@@ -33,7 +33,7 @@ import androidx.navigation.NavHostController
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val context=LocalContext.current
-    val sharedPreferences = context.getSharedPreferences("choices", Context.MODE_PRIVATE)
+    val sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE)
     var topicExpanded by rememberSaveable { mutableStateOf(false) }
     var diffExpanded by rememberSaveable { mutableStateOf(false) }
     val difficulties = listOf("Easy", "Medium", "Hard")

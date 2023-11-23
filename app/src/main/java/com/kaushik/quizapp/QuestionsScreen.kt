@@ -1,11 +1,11 @@
 package com.kaushik.quizapp
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,9 +14,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.TopAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,10 +33,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.kaushik.quizapp.questions.Question
 import com.kaushik.quizapp.questions.questionsMap
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun QuestionScreen(navController: NavHostController) {
     val context = LocalContext.current
@@ -47,15 +52,47 @@ fun QuestionScreen(navController: NavHostController) {
         optionsList.add(questionItem.correctAnswer)
         options.add(optionsList)
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 10.dp)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Welcome ",
+                        fontSize = 20.sp,
+                        color = Color.White
+                    )
+                },
+                actions = {
+                    Button(
+                        onClick = {
+                            var score = 0
+                            for (i in 0 until 10) {
+                                val response = sharedPreferences.getString("$i", "")
+                                if (response == questionsList[i].correctAnswer) {
+                                    score++
+                                }
+                            }
+                            sharedPreferences.edit().putInt("score", score).commit()
+                            navController.navigate("results")
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White
+                        )
+                    ) {
+                        Text(
+                            text = "Submit",
+                            color = Color.Blue,
+                            fontSize = 18.sp
+                        )
+                    }
+                }
+            )
+        }
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(.96f)
+                .padding(horizontal = 10.dp)
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -121,21 +158,6 @@ fun QuestionScreen(navController: NavHostController) {
                     }
                 }
             }
-        }
-        Button(
-            onClick = {
-                var score = 0
-                for (i in 0 until 10) {
-                    val response = sharedPreferences.getString("$i", "")
-                    if (response == questionsList[i].correctAnswer) {
-                        score++
-                    }
-                }
-                sharedPreferences.edit().putInt("score", score).commit()
-                navController.navigate("results")
-            }
-        ) {
-            Text(text = "Submit")
         }
     }
 }

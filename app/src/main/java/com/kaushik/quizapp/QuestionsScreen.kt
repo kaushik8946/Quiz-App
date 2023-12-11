@@ -91,7 +91,7 @@ fun QuestionScreen(navController: NavHostController) {
     ) {
         Column(
             modifier = Modifier
-                .padding(horizontal = 10.dp)
+                .padding(top=50.dp,start=10.dp,end=10.dp)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
